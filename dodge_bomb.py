@@ -8,6 +8,20 @@ WIDTH, HEIGHT = 1100, 650
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 
+def check_bound(obj_rct: pg.Rect) -> tuple[bool, bool]:
+    """
+    引数 : こうかとん または 爆弾のRect
+    戻り値 : 真理値タプル(横判定結果, 縦判定結果)
+    画面内ならTrue, 画面内ならFalse
+    """
+    line, vartical = True, True
+    if obj_rct.left < 0 or WIDTH < obj_rct.right:
+        line = False
+    if obj_rct.top < 0 or  HEIGHT < obj_rct.bottom:
+        vartical = False
+    return line, vartical
+
+
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -30,7 +44,6 @@ def main():
     vx, vy = 5 ,5
     clock = pg.time.Clock()
     tmr = 0
-
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT: 
@@ -52,8 +65,15 @@ def main():
                 sum_mv[0] += tpl[0] # 横方向
                 sum_mv[1] += tpl[1] # 縦方向
         kk_rct.move_ip(sum_mv)
-        bb_rct.move_ip((vx, vy))
+        if check_bound(kk_rct) != (True, True):
+            kk_rct.move_ip(-sum_mv[0], -sum_mv[1])
         screen.blit(kk_img, kk_rct)
+        bb_rct.move_ip(vx, vy)
+        line, vartical = check_bound(bb_rct)
+        if not line:
+            vx *= -1
+        if not vartical:
+            vy *= -1
         screen.blit(bb_img, bb_rct)
         pg.display.update()
         tmr += 1
