@@ -38,25 +38,48 @@ def main():
     bb_img.set_colorkey((0, 0, 0))
     pg.draw.circle(bb_img, (255, 0, 0), (10, 10), 10)
 
-    bl_img = pg.Surface((WIDTH, HEIGHT)) # 空のSurface
-    pg.draw.rect(bl_img, (0, 0, 0), pg.Rect(0, 0, WIDTH, HEIGHT))
-    bl_img.set_alpha(128)
-    go_font = pg.font.Font(None, 80)
-    txt = go_font.render("Game Over", True,
-                         (255, 255, 255))
-    go_img = pg.image.load("fig/8.png")
-    go_rct = go_img.get_rect()
-    go_rct2 = go_img.get_rect()
-    go_rct = (WIDTH-360)/2 , HEIGHT/2
-    go_rct2 = (WIDTH+350)/2 , HEIGHT/2
+    def game_over() -> None:
+        """
+        引数 : なし
+        戻り値 : なし
+        """
+        bl_img = pg.Surface((WIDTH, HEIGHT)) # 空のSurface
+        pg.draw.rect(bl_img, (0, 0, 0), pg.Rect(0, 0, WIDTH, HEIGHT))
+        bl_img.set_alpha(128)
+        go_font = pg.font.Font(None, 80)
+        txt = go_font.render("Game Over", True,
+                            (255, 255, 255))
+        go_img = pg.image.load("fig/8.png")
+        go_rct = go_img.get_rect()
+        go_rct2 = go_img.get_rect()
+        go_rct = (WIDTH-360)/2 , HEIGHT/2
+        go_rct2 = (WIDTH+350)/2 , HEIGHT/2
+        bl_rct = bl_img.get_rect()
+        bl_rct = 0, 0
+        screen.blit(bl_img, bl_rct)
+        screen.blit(txt, [(WIDTH-270)/2, HEIGHT/2])
+        screen.blit(go_img, go_rct)
+        screen.blit(go_img, go_rct2)
+
+    # bl_img = pg.Surface((WIDTH, HEIGHT)) # 空のSurface
+    # pg.draw.rect(bl_img, (0, 0, 0), pg.Rect(0, 0, WIDTH, HEIGHT))
+    # bl_img.set_alpha(128)
+    # go_font = pg.font.Font(None, 80)
+    # txt = go_font.render("Game Over", True,
+    #                      (255, 255, 255))
+    # go_img = pg.image.load("fig/8.png")
+    # go_rct = go_img.get_rect()
+    # go_rct2 = go_img.get_rect()
+    # go_rct = (WIDTH-360)/2 , HEIGHT/2
+    # go_rct2 = (WIDTH+350)/2 , HEIGHT/2
 
 
     kk_rct = kk_img.get_rect()
     kk_rct.center = 300, 200
     bb_rct = bb_img.get_rect() # 爆弾rectの抽出
     bb_rct.center = randint(0, WIDTH), randint(0, HEIGHT)
-    bl_rct = bl_img.get_rect()
-    bl_rct = 0, 0
+    # bl_rct = bl_img.get_rect()
+    # bl_rct = 0, 0
     vx, vy = 5 ,5
     clock = pg.time.Clock()
     tmr = 0
@@ -66,10 +89,11 @@ def main():
                 return
         screen.blit(bg_img, [0, 0]) 
         if kk_rct.colliderect(bb_rct): # こうかとんと爆弾が重なっていたら
-            screen.blit(bl_img, bl_rct)
-            screen.blit(txt, [(WIDTH-270)/2, HEIGHT/2])
-            screen.blit(go_img, go_rct)
-            screen.blit(go_img, go_rct2)
+            # screen.blit(bl_img, bl_rct)
+            # screen.blit(txt, [(WIDTH-270)/2, HEIGHT/2])
+            # screen.blit(go_img, go_rct)
+            # screen.blit(go_img, go_rct2)
+            game_over()
             pg.display.update()
             time.sleep(5)
             return
