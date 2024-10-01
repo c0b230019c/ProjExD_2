@@ -23,7 +23,7 @@ def check_bound(obj_rct: pg.Rect) -> tuple[bool, bool]:
     return line, vartical
 
 
-def game_over(screen: pg.display) -> tuple[int, int]:
+def game_over(screen: pg.display) -> tuple[int, int]: #修正点なし
     """
     引数 : screen
     戻り値 : なし
