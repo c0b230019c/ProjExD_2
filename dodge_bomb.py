@@ -25,7 +25,7 @@ def check_bound(obj_rct: pg.Rect) -> tuple[bool, bool]:
 
 def game_over(screen: pg.display) -> tuple[int, int]:
     """
-    引数 : なし
+    引数 : screen
     戻り値 : なし
     """
     bl_img = pg.Surface((WIDTH, HEIGHT)) # 空のSurface
